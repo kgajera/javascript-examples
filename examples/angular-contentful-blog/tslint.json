@@ -75,7 +75,7 @@
         "groups": [
           {
             "name": "Core & third-party imports",
-            "match": "^(@angular|@?contentful|@ng|axios|ngx|rxjs)",
+            "match": "^[@a-zA-Z]",
             "order": 10
           },
           {
