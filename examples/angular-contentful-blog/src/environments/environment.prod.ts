@@ -4,4 +4,5 @@ export const environment = {
     space: 'vcdjjbl2zaex',
     accessToken: 'xG-Ei5PrA5Dz-dr7kaKwSUMHe0UGXUzP690e4QGtSbE',
   },
+  hostUrl: 'http://localhost:4000',
 };

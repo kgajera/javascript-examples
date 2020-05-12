@@ -1,12 +1,23 @@
 import 'zone.js/dist/zone-node';
 
-import { ngExpressEngine } from '@nguniversal/express-engine';
-import * as express from 'express';
-import { join } from 'path';
-
-import { AppServerModule } from './src/main.server';
+// tslint:disable-next-line: ordered-imports
 import { APP_BASE_HREF } from '@angular/common';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import { ContentfulClientApi, EntryCollection, createClient } from 'contentful';
+import * as express from 'express';
+import { Request, Response } from 'express';
 import { existsSync } from 'fs';
+import { join } from 'path';
+import { EnumChangefreq, SitemapItem, SitemapStream } from 'sitemap';
+import { createGzip } from 'zlib';
+
+import { environment } from './src/environments/environment';
+import { AppServerModule } from './src/main.server';
+
+const contentfulClientApi: ContentfulClientApi = createClient({
+  space: environment.contentful.space,
+  accessToken: environment.contentful.accessToken,
+});
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -22,8 +33,9 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Example Express Rest API endpoints
-  // app.get('/api/**', (req, res) => { });
+  // Sitemap
+  server.get('/sitemap.xml', sitemap);
+
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
@@ -45,6 +57,58 @@ function run() {
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+}
+
+async function sitemap(req: Request, res: Response) {
+  res.header('Content-Type', 'application/xml');
+  res.header('Content-Encoding', 'gzip');
+
+  try {
+    const sitemapStream = new SitemapStream({
+      // This is required because we will be adding sitemap entries using relative URLs
+      hostname: environment.hostUrl
+    });
+    const pipeline = sitemapStream.pipe(createGzip());
+
+    // Fetch blog posts from Contentful
+    const blogPostCollection: EntryCollection<{
+      slug: string;
+    }> = await contentfulClientApi.getEntries({
+      content_type: 'blogPost',
+      limit: 1000,
+    });
+
+    for (const entry of blogPostCollection.items) {
+      /**
+       * For each blog post, add a new sitemap item. The Angular app contains
+       * a route that uses the blog post's slug as a route parameter. So the
+       * 'url' value will be the slug and is a relative URL that matches our
+       * Angular route.
+       */
+      sitemapStream.write({
+        changefreq: EnumChangefreq.MONTHLY,
+        lastmod: entry.sys.updatedAt,
+        priority: .7,
+        url: entry.fields.slug,
+      } as SitemapItem);
+    }
+
+    // Add any other sitemap items for other pages of your site
+    sitemapStream.write({
+      changefreq: EnumChangefreq.DAILY,
+      priority: 1,
+      url: '',
+    } as SitemapItem);
+
+    // Stream write the response
+    sitemapStream.end();
+    pipeline.pipe(res).on('error', (error: Error) => {
+      throw error;
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).end();
+  }
 }
 
 // Webpack will replace 'require' with '__webpack_require__'

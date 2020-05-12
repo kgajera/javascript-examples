@@ -32,6 +32,7 @@
     "express": "^4.15.2",
     "ngx-contentful-rich-text": "^0.2.0",
     "rxjs": "~6.5.4",
+    "sitemap": "^6.1.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
