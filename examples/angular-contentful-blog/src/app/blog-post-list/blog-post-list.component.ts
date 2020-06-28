@@ -7,6 +7,7 @@ import { ContentfulApiService } from '../contentful/contentful-api.service';
 @Component({
   selector: 'app-blog-post-list',
   template: `
+    <h1>Blog Posts</h1>
     <article *ngFor="let blogPost of blogPosts">
       <h2>
         <a [routerLink]="blogPost.fields.slug">{{ blogPost.fields.title }}</a>
