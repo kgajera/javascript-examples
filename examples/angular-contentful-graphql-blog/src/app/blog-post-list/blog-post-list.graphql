@@ -1,0 +1,13 @@
+fragment BlogPostListItem on BlogPost {
+  excerpt
+  slug
+  title
+}
+
+query blogPosts {
+  blogPostCollection {
+    items {
+      ...BlogPostListItem
+    }
+  }
+}

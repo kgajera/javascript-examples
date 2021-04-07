@@ -1,0 +1,18 @@
+fragment BlogPostItem on BlogPost {
+  content {
+    json
+  }
+  featuredImage {
+    title
+    url
+  }
+  title
+}
+
+query blogPost($slug: String) {
+  blogPostCollection(where: { slug: $slug }) {
+    items {
+      ...BlogPostItem
+    }
+  }
+}
