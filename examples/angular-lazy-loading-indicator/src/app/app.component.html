@@ -1,0 +1,9 @@
+<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-bar>
+
+<mat-toolbar color="primary">
+  <a mat-button routerLink="/feature-one">Feature One</a>
+  <a mat-button routerLink="/lazy-feature-two">Lazy Feature Two</a>
+  <a mat-button routerLink="/lazy-feature-three">Lazy Feature Three</a>
+</mat-toolbar>
+
+<router-outlet></router-outlet>
