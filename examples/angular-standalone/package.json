@@ -1,0 +1,46 @@
+{
+  "name": "angular-standalone",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "g:component": "ng g component --flat --inline-template --standalone --style=none",
+    "g:directive": "ng g directive --flat --standalone",
+    "g:pipe": "ng g pipe --flat --standalone",
+    "g:service": "ng g service --flat"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^14.0.0-rc.2",
+    "@angular/common": "^14.0.0-rc.2",
+    "@angular/compiler": "^14.0.0-rc.2",
+    "@angular/core": "^14.0.0-rc.2",
+    "@angular/forms": "^14.0.0-rc.2",
+    "@angular/platform-browser": "^14.0.0-rc.2",
+    "@angular/platform-browser-dynamic": "^14.0.0-rc.2",
+    "@angular/router": "^14.0.0-rc.2",
+    "rxjs": "~7.4.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.0.0-rc.2",
+    "@angular/cli": "^14.0.0-rc.2",
+    "@angular/compiler-cli": "^14.0.0-rc.2",
+    "@types/jasmine": "~3.10.0",
+    "@types/node": "^12.11.1",
+    "autoprefixer": "^10.4.7",
+    "jasmine-core": "~3.10.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24",
+    "typescript": "~4.7.2"
+  }
+}
