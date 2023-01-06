@@ -6,11 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "g:component": "ng g component --flat --inline-template --standalone --style=none",
-    "g:directive": "ng g directive --flat --standalone",
-    "g:pipe": "ng g pipe --flat --standalone",
-    "g:service": "ng g service --flat"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
